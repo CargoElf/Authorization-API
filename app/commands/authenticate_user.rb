@@ -1,4 +1,4 @@
-class AUthenticateUser
+class AuthenticateUser
   prepend SimpleCommand
 
   def initialize(email, password)
@@ -7,14 +7,14 @@ class AUthenticateUser
   end
 
   def call
-    JsonWebToken.encode(user_id: user.id) if user
+    JsonWebToken.encode(user_id: user.id) if find_user
   end
 
   private
 
   attr_accessor :email, :password
 
-  def user
+  def find_user
     user = User.find_by_email email
     return user if user && user.authenticate(password)
 
